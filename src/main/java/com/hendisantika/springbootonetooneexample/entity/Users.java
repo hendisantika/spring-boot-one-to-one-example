@@ -13,7 +13,7 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name = "users", catalog = "test")
+@Table(name = "users", catalog = "one2one")
 public class Users {
 
     @Id
@@ -29,6 +29,12 @@ public class Users {
     private String teamName;
 
     public Users() {
+    }
+
+    public Users(String name, Integer salary, String teamName) {
+        this.name = name;
+        this.salary = salary;
+        this.teamName = teamName;
     }
 
     public Integer getId() {

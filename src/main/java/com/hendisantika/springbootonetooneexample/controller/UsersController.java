@@ -3,11 +3,9 @@ package com.hendisantika.springbootonetooneexample.controller;
 import com.hendisantika.springbootonetooneexample.entity.Users;
 import com.hendisantika.springbootonetooneexample.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +31,11 @@ public class UsersController {
         return usersRepository.findAll();
     }
 
+    @PostMapping("/add")
+    public Users addUser(@RequestBody @Valid Users users) {
+        return usersRepository.save(users);
+    }
+
     @GetMapping("/{name}")
     public List<Users> getUser(@PathVariable("name") final String name) {
         return usersRepository.findByName(name);
@@ -46,18 +49,11 @@ public class UsersController {
 
     @GetMapping("/update/{id}/{name}")
     public Users update(@PathVariable("id") final Integer id, @PathVariable("name") final String name) {
-
-
         Optional<Users> users = getId(id);
-//        users.setName(name);
         users.ifPresent(users1 -> {
             users1.setName(name);
         });
-
-//        users.map(it -> …); // map the value if present
-        Users result = users.orElse(null); // if you want to continue just like before
-
-
+        Users result = users.orElse(null);
         return usersRepository.save(result);
     }
 }
